@@ -1,6 +1,6 @@
 prequisites:
-sbt is to be installed in the system
-Also a proper jdk should be installed and it is recommended to go through https://www.playframework.com/documentation/latest/Home and download sbt and jdk from the same.
+sbt is to be installed in the system.
+It is recommended to go through https://www.playframework.com/documentation/latest/Home and download sbt and jdk from the same.
 
 ## Running
 
