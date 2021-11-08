@@ -1,0 +1,33 @@
+@(event: Event)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("../../../public/css/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("../../../public/css/bootstrap-grid.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("../../../public/css/bootstrap-reboot.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("../../../public/css/custom1.css")">
+        <script src="@routes.Assets.versioned("../../../public/js/custom.js")" type="text/javascript"></script>
+        <title>Welcome to BookIT</title>
+    </head>
+    <body>
+        <h2>Event Details</h2>
+        <ul>
+            <li><strong>Event</strong> @event.getEventName</li>
+            <li><strong>Location</strong> @event.getEventLocation</li>
+            <li><strong>Date</strong> @event.getEventDate</li>
+            <li><Strong>Ticket cost</Strong> @event.getPerTicketCost</li>
+            <li><Strong>Sales so far</Strong> @event.getTotalSales</li>
+        </ul>
+        <ul>
+            <li>
+                <a href="/event/update/@event.getEventId"<button>Update Event</button>
+            </li>
+            <li>
+                <a href="/event/delete/@event.getEventId"<button>Delete Event</button>
+            </li>
+
+        </ul>
+    </body>
+
+</html>

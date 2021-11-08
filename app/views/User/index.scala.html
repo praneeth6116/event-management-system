@@ -1,0 +1,16 @@
+@(users : List[User])
+
+<html>
+    <head>
+        <title>All Users</title>
+    </head>
+    <body>
+        <h1>All Users</h1>
+
+        @for(user <- users){
+            <a href = '#'>@user.getUserFirstName</a>
+            <p>Email : @user.getUserEmail</p>
+            <p>Password : @user.getUserPassword</p>
+        }
+    </body>
+</html>

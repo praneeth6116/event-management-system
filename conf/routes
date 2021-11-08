@@ -1,0 +1,97 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                           controllers.HomeController.index
+# An example controller showing how to use dependency injection
+GET     /count                      controllers.CountController.count
+# An example controller showing how to write asynchronous code
+GET     /message                    controllers.AsyncController.message
+
+GET     /signOut                    controllers.HomeController.logout
+GET     /login                      controllers.HomeController.login
+
++ nocsrf
+POST    /login/user                  controllers.UserController.verifyUser
+GET     /create                     controllers.CustomerController.createCustomer()
+#GET     /create/eventManager        controllers.EventManagerController.createEventManager
+
+
+GET     /welcome/:name/:lastName    controllers.HomeController.welcome(name : String, lastName : String)
+
+
+GET     /users                      controllers.UserController.index()
+GET     /users/edit/:id             controllers.UserController.edit(id : String)
+POST    /users/edit                 controllers.UserController.update()
+GET     /users/delete/:id           controllers.UserController.destroy(id : Integer)
+
+
+GET     /eventManager/:email          controllers.EventManagerController.showEventManagerDashBoard(email : String)
+
++ nocsrf
+POST    /createUser                 controllers.CustomerController.saveCustomer
++ nocsrf
+POST    /createEventManager         controllers.EventManagerController.saveEventManager
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+
+#Customer routes
+GET     /customer/:email            controllers.CustomerController.showCustomerDashBoard(email : String)
+GET     /customer/show/:email       controllers.CustomerController.showCustomerProfile(email : String)
+GET     /customer/viewHistory/:email    controllers.CustomerController.showCustomerBookingHistory(email : String)
+GET     /customer/viewWishList/:email    controllers.CustomerController.showCustomerWishList(email : String)
+GET     /customer/updateProfile/:email   controllers.CustomerController.updateCustomerProfile(email : String)
+GET     /customer/addToWishList/:eventId controllers.CustomerController.addToWishList(eventId : Integer)
+GET     /customer/removeFromWishList/:eventId controllers.CustomerController.removeFromWishList(eventId : Integer)
+
++ nocsrf
+POST     /customer/:email/search      controllers.CustomerController.searchEvent(email :String)
+
++ nocsrf
+POST     /customer/:email/search1      controllers.CustomerController.searchEvent(email :String)
++ nocsrf
+POST    /customer/modifyProfile/:email   controllers.CustomerController.modifyCustomerProfile(email : String)
+#Event Manager routes
+GET     /eventManager/:email            controllers.EventManagerController.showEventManagerDashBoard(email : String)
+GET     /eventManager/showProfile/:email    controllers.EventManagerController.showEventManagerProfile(email : String)
+GET     /eventManager/updateProfile/:email   controllers.EventManagerController.updateEventManagerProfile(email : String)
++ nocsrf
+POST    /eventManger/modifyProfile/:email   controllers.EventManagerController.modifyEventManagerProfile(email : String)
+
+#Event routes
+GET /event/create                   controllers.EventController.createEvent()
+GET /event/show/:eventId            controllers.EventController.showEvent(eventId : Integer)
+GET /event/search/:userMail          controllers.EventController.searchEvent(userMail : String)
+GET /event/update/:eventId          controllers.EventController.updateEvent(eventId : Integer)
+GET /event/delete/:eventId          controllers.EventController.deleteEvent(eventId : Integer)
+GET /event/book/:eventId            controllers.TicketController.bookTicket(eventId: Integer)
++ nocsrf
+POST /event/book/confirm/:eventId    controllers.TicketController.confirmTicket(eventId: Integer)
++ nocsrf
+POST /event/create/save              controllers.EventController.saveEvent()
++ nocsrf
+POST /event/modify/:eventId         controllers.EventController.modifyEvent(eventId : Integer)
+GET  /event/cancel/:ticketId        controllers.TicketController.cancelTicket(ticketId: Integer)
+
+#Admin routes
+GET /admin/:email                  controllers.AdminController.showAdminDashboard(email : String)
+GET /admin/:email/manage/em        controllers.AdminController.showManageEM(email : String)
+GET /admin/:email/update/em/:mail   controllers.AdminController.editManageEM(email :String , mail : String)
+GET /admin/:email/delete/em/:mail   controllers.AdminController.deleteManageEM(email :String , mail : String)
+GET /admin/:email/approve/:mail   controllers.AdminController.updateApproval(email :String , mail : String)
+GET /admin/showProfile/:email       controllers.AdminController.showAdminProfile(email : String)
+GET /admin/updateProfile/:email    controllers.AdminController.supdateAdminProfile(email: String)
++ nocsrf
+POST /admin/modifyProfile/:email       controllers.AdminController.updateAdminProfile(email : String)
+GET /admin/:email/event             controllers.AdminController.getEvents(email: String)
+GET /admin/:email/updateevent/:id             controllers.AdminController.updateEvent(email: String , id : Integer)
+GET /admin/:email/deleteevent/:id      controllers.AdminController.deleteEvent(email: String , id : Integer)
+GET /admin/:email/event/delete/:id     controllers.AdminController.deleteEvent_fromManageEvent(email: String , id : Integer)
+#GET /mail/:email                    controllers.UserController.sendMail(email: String)
+
+GET /password/reset                 controllers.HomeController.resetPassword()
++ nocsrf
+POST /reset/sendMail                 controllers.HomeController.resetSendMail()

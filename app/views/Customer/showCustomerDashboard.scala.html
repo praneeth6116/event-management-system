@@ -1,0 +1,100 @@
+@(customer: User, allEvents: List[Event], eventManager: List[EventManager])
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset='utf-8'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/bootstrap-grid.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/bootstrap-reboot.min.css")">
+        @*<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/searchBar.css")">*@
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/cards.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/topBar.css")">
+
+
+        <script src="@routes.Assets.versioned("js/jquery-3.2.1.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("js/navbar.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("js/cards.js")" type="text/javascript"></script>
+        <title>Customer Dashboard</title>
+    </head>
+    <body>
+        <div id='cssmenu'>
+            <ul>
+                <li class='active'><a href='#'>Home</a></li>
+                <li><a href='/customer/show/@customer.getUserEmail'>Profile</a></li>
+                <li><a href='/customer/viewHistory/@customer.getUserEmail'>Booking History</a></li>
+                <li><a href='/customer/viewWishList/@customer.getUserEmail'>Wish List</a></li>
+                <li><a href='/signOut'>Log Out</a></li>
+            </ul>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+            <form class="form-inline" action="/customer/@customer.getUserEmail/search1" method="post">
+                <input type="search" class="form-control" placeholder="Event Name" name="query_name"/>
+                <p>&nbsp &nbsp</p>
+                <input type="search" class="form-control" placeholder="Location" name="query_location"/>
+                <p>&nbsp &nbsp</p>
+                <input type="search" class="form-control" placeholder="Date" name="query_date"/>
+                <p>&nbsp &nbsp</p>
+                <input type="submit" value="Search" class="btn btn-outline-info">
+            </form>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+            <p class="form-control btn btn-outline-dark">Featured Events</p>
+        </div>
+        <br>
+        <div class="container">
+            <div class="row active-with-click">
+            @for(index <- 0 until allEvents.size) {
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <article class="material-card Teal">
+                        <h2>
+                            <span>@allEvents.get(index).getEventName
+                            @{
+                                if(eventManager.get(index).getisApproved()) {
+                                        <span class="checkmark">
+                                        <div class="checkmark_stem"></div>
+                                        <div class="checkmark_kick"></div>
+                                        </span>
+                                }
+                            }</span>
+                            <strong>
+                                <i class="fa fa-fw fa-star"></i>
+                                Location: @allEvents.get(index).getEventLocation
+                                <p></p>
+                            </strong>
+                        </h2>
+                        <div class="mc-content">
+                            <div class="img-container">
+                                <img class="img-responsive" src="@routes.Assets.versioned("images/Concert2_Customer.jpg")">
+                            </div>
+                            <div class="mc-description">
+                                <p>Number of Available Seats: <strong> @allEvents.get(index).getAvailableNoOfSeats</strong></p>
+                                <p> Cost per Ticket :<strong>$ @allEvents.get(index).getPerTicketCost</strong></p>
+                                <p>Date of the event: <strong>@allEvents.get(index).getEventDate </strong></p>
+                                <p>Event owner : @allEvents.get(index).getEventOwnerEmail</p>
+                            </div>
+                        </div>
+                        <a class="mc-btn-action">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <div class="mc-footer">
+                            <form method="get" action="/event/book/@allEvents.get(index).getEventId">
+                                <button class="btn btn-outline-info">Book</button>
+                                <button class="btn btn-outline-info" formaction="/customer/addToWishList/@allEvents.get(index).getEventId">Add to WishList</button>
+                            </form>
+                        </div>
+                    </article>
+                </div>
+            }
+            </div>
+        </div>
+    </body>
+
+</html>

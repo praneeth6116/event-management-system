@@ -1,0 +1,29 @@
+@(events: List[Event], userMail: String)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("../../../public/css/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("../../../public/css/bootstrap-grid.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("../../../public/css/bootstrap-reboot.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/custom1.css")">
+        <script src="@routes.Assets.versioned("../../../public/js/custom.js")" type="text/javascript"></script>
+        <title>Welcome to BookIT</title>
+    </head>
+    <body>
+        <h2>Event Details</h2>
+        @for(event <- events){
+            <ul>
+
+                <li><strong>Event:</strong> @event.getEventName</li>
+                <li><strong>Location:</strong> @event.getEventLocation</li>
+                <li><strong>Date:</strong> @event.getEventDate</li>
+                <li><Strong>Ticket cost:</Strong> $@event.getPerTicketCost</li><br/>
+                <a href="/event/book/@event.getEventId"><button>Book event</button></a>
+                <a href="/customer/addToWishList/@event.getEventId"><button>Add to Wish List</button></a>
+            </ul>
+
+        }
+    </body>
+
+</html>
