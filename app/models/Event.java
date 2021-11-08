@@ -29,9 +29,12 @@ public class Event extends Model implements EventObservable{
     private Date eventDate;
     private String eventLocation;
     private float perTicketCost;
+	private float perShareCost;
     private String eventOwnerEmail;
     private Integer availableNoOfSeats;
+	private Integer availableNoOfShares;
     private float totalSales;
+	private float totalShareSales;
     private String attendees;
     private String observers;
     private Integer numAttendees;
@@ -42,15 +45,18 @@ public class Event extends Model implements EventObservable{
 
 
 
-    public Event(String eventName, Date eventDate, String eventLocation, float perTicketCost, String eventOwnerEmail, Integer availableNoOfSeats){
+    public Event(String eventName, Date eventDate, String eventLocation, float perTicketCost, float perShareCost, String eventOwnerEmail, Integer availableNoOfSeats, Integer availableNoOfShares){
 
         this.eventName = eventName;
         this.eventDate = eventDate;
         this.eventLocation = eventLocation;
         this.perTicketCost = perTicketCost;
+		this.perShareCost = perShareCost;
         this.eventOwnerEmail = eventOwnerEmail;
         this.availableNoOfSeats = availableNoOfSeats;
+		this.availableNoOfShares = availableNoOfShares;
         this.totalSales = 0;
+		this.totalShareSales=0;
         this.attendees = "";
         this.observers = "";
         this.numAttendees = 0;
@@ -116,9 +122,17 @@ public class Event extends Model implements EventObservable{
     public float getPerTicketCost() {
         return perTicketCost;
     }
+	
+	public float getPerShareCost() {
+        return perShareCost;
+    }
 
     public void setPerTicketCost(float perTicketCost) {
         this.perTicketCost = perTicketCost;
+    }
+	
+	public void setPerShareCost(float perShareCost) {
+        this.perShareCost = perShareCost;
     }
 
     public String getEventOwnerEmail() {
@@ -132,17 +146,33 @@ public class Event extends Model implements EventObservable{
     public Integer getAvailableNoOfSeats() {
         return availableNoOfSeats;
     }
+	
+	public Integer getAvailableNoOfShares() {
+        return availableNoOfShares;
+    }
 
     public void setAvailableNoOfSeats(Integer availableNoOfSeats) {
         this.availableNoOfSeats = availableNoOfSeats;
+    }
+	
+	public void setAvailableNoOfShares(Integer availableNoOfShares) {
+        this.availableNoOfShares = availableNoOfShares;
     }
 
     public float getTotalSales() {
         return totalSales;
     }
+	
+	public float getTotalShareSales() {
+        return totalShareSales;
+    }
 
     public void setTotalSales(float totalSales) {
         this.totalSales = totalSales;
+    }
+	
+	public void setTotalShareSales(float totalShareSales) {
+        this.totalShareSales = totalShareSales;
     }
 
     public String getAttendees() {
@@ -196,7 +226,6 @@ public class Event extends Model implements EventObservable{
         MailerService m = new MailerService(mailerClient);
         List<EObserver> userList = Ebean.find(EObserver.class).where().eq("eventID", this.eventId).findList();
         Iterator it = userList.iterator();
-
         while (it.hasNext()) {
             EObserver temp = (EObserver) it.next();
             User user = User.find.byId(temp.getCustomerEmail());
