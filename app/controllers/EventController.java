@@ -35,17 +35,14 @@ public class EventController extends Controller{
     @Inject
     MailerClient mailerClient;
 
-    public Result createEvent()
-    {
+    public Result createEvent() {
         return ok(createEvent.render());
     }
-    public Result saveEvent()
-    {
+    public Result saveEvent() {
         DynamicForm df = formFactory.form().bindFromRequest();
 
         String user = session("connected");
         //return forbidden("user details "+user);
-
         User eventManager = User.find.byId(user);
 
         DateFormat datef = new SimpleDateFormat("MM/dd/yyyy");
@@ -60,20 +57,18 @@ public class EventController extends Controller{
 
     }
 
-    public Result showEvent(Integer eventId){
+    public Result showEvent(Integer eventId) {
         String user = session("connected");
         User eventManager = User.find.byId(user);
         Event event = Event.find.byId(eventId.toString());
         return ok(showEventDetails.render(event));
     }
 
-    public Result searchEvent(String userMail){
+    public Result searchEvent(String userMail) {
         List<Event> event = Event.find.all();
         return ok(showSearchEvents.render(event,userMail));
     }
-
-
-
+	
     public Result updateEvent(Integer eventId){
         String user = session("connected");
         User eventManager = User.find.byId(user);
@@ -163,5 +158,4 @@ public class EventController extends Controller{
         m.eventUpdateNotification(event.getEventId(),eventManager.getUserEmail());
         return redirect(routes.EventManagerController.showEventManagerDashBoard(eventManager.getUserEmail()));
     }
-
 }
