@@ -5,6 +5,7 @@ import io.ebean.Ebean;
 import models.EObserver;
 import models.Event;
 import models.Ticket;
+import models.Share;
 import models.User;
 import notifiers.MailerService;
 import play.data.DynamicForm;
@@ -14,6 +15,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import views.html.Customer.showCustomerDashboard;
+import views.html.Advetiser.showAdvertiserDashboard;
 import views.html.Event.createEvent;
 import views.html.Event.showEventDetails;
 import views.html.Event.showSearchEvents;
@@ -88,6 +90,16 @@ public class EventController extends Controller{
         event.update();
         return 0;
     }
+	
+	public int updateEvent(Share s, Integer eventId){
+
+        Event event = Event.find.byId(eventId.toString());
+        event.setAvailableNoOfShares(event.getAvailableNoOfShares()-s.getNumShares());
+        event.setTotalShareSales(event.getTotalShareSales()+(event.getPerShareCost() * s.getNumShares()));
+        event.addObserver(t.getCustomerMail());
+        event.update();
+        return 0;
+    }
 
     public Integer cancelEventTicket(Ticket t, Event event){
 
@@ -99,9 +111,18 @@ public class EventController extends Controller{
         event.removeObserver(user.getUserEmail());
         return 0;
     }
+	
+	public Integer cancelEventTicket(Share s, Event event){
 
-
-
+        String userMail = session("connected");
+        User user = User.find.byId(userMail);
+        event.setAvailableNoOfShares(event.getAvailableNoOfShares()+ s.getNumShares());
+        event.setTotalShareSales(event.getTotalShareSales()-(event.getPerShareCost() * t.getNumShares()));
+        event.update();
+        event.removeObserver(user.getUserEmail());
+        return 0;
+    }
+	
     public Result deleteEvent(Integer eventId){
         Event event = Event.find.byId(eventId.toString());
         Event.find.byId(eventId.toString()).delete();
@@ -132,7 +153,9 @@ public class EventController extends Controller{
 
         event.setEventLocation(df.get("eventlocation"));
         event.setPerTicketCost(Float.parseFloat(df.get("cost")));
-        event.setAvailableNoOfSeats(Integer.parseInt(df.get("seats")));
+		event.setPerShareCost(Float.parseFloat(df.get("cost")));
+		event.setAvailableNoOfSeats(Integer.parseInt(df.get("seats")));
+		event.setAvailableNoOfShares(Integer.parseInt(df.get("shares")));
         event.update();
         event.notifyObserver(mailerClient);
 
