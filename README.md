@@ -11,4 +11,4 @@ sbt run
 And then go to http://localhost:9000 to see the running web application.
 
 prequisites:
-1)sbt is to present in the system
+sbt is to present in the system
